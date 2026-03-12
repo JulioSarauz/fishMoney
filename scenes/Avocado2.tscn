@@ -1,45 +1,50 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://assets/PineApple_Idle0001.png" type="Texture" id=1]
+[ext_resource path="res://assets/Avocado_Idle0001.png" type="Texture" id=1]
 [ext_resource path="res://scripts/fruit.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 53.6839
+radius = 255.556
 
-[node name="PineApple" type="RigidBody2D"]
-scale = Vector2( 5, 5 )
+[node name="Avocado2" type="RigidBody2D"]
+scale = Vector2( 0.3, 0.3 )
 z_index = 1
-gravity_scale = 8.5
+gravity_scale = 7.8
 script = ExtResource( 2 )
 
 [node name="Sprite0" type="Sprite" parent="."]
-position = Vector2( -2.6, -3.4 )
-scale = Vector2( 0.5, 0.5 )
+position = Vector2( 10, 3.33337 )
+scale = Vector2( 0.558333, 0.533333 )
 texture = ExtResource( 1 )
 
 [node name="Shape" type="CollisionShape2D" parent="."]
-position = Vector2( 3.2, 5.4 )
+position = Vector2( 10, 13.3333 )
+scale = Vector2( 0.3, 0.3 )
 shape = SubResource( 1 )
 one_way_collision = true
 
 [node name="Body1" type="RigidBody2D" parent="."]
+scale = Vector2( 0.3, 0.3 )
 mode = 1
-gravity_scale = 15.5
+gravity_scale = 16.7
 
 [node name="Sprite1" type="Sprite" parent="Body1"]
-position = Vector2( -44.6, 16.8 )
-scale = Vector2( 0.5, 0.5 )
+visible = false
+position = Vector2( -133.333, 111.111 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 232, 482 )
+region_rect = Rect2( 0, 0, 236, 501 )
 
 [node name="Body2" type="RigidBody2D" parent="."]
+scale = Vector2( 0.3, 0.3 )
 mode = 1
-gravity_scale = 15.5
+gravity_scale = 16.7
 
 [node name="Sprite2" type="Sprite" parent="Body2"]
-position = Vector2( 71.4, 17 )
-scale = Vector2( 0.5, 0.5 )
+visible = false
+position = Vector2( 344.445, 111.111 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 232, 0, 232, 482 )
+region_rect = Rect2( 236, 0, 236, 501 )
