@@ -1,73 +1,56 @@
 extends Node2D
 
-
-onready var limit = get_node("Limit")
-onready var interval = get_node("Interval")
-
-var pressed = false
-var drag = false
-var curPosition = Vector2(0, 0)
-var prevPosition = Vector2(0, 0)
-
+var touches = {} # Diccionario para rastrear el estado de múltiples dedos a la vez
 var gameOver = false
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	pass
 
 func _input(event):
-	#For coordinates to fit the local device screen
 	event = make_input_local(event)
+	
 	if event is InputEventScreenTouch:
 		if event.pressed:
-			pressed(event.position)
+			# Registramos un nuevo dedo en la pantalla usando su índice único
+			touches[event.index] = {
+				"prev": event.position,
+				"curr": event.position,
+				"active": false
+			}
 		else:
-			released()
+			# El dedo soltó la pantalla, lo eliminamos del estado
+			if touches.has(event.index):
+				touches.erase(event.index)
+				update() # Forzamos borrado de la línea visual
+				
 	elif event is InputEventScreenDrag:
-		drag(event.position)
+		if touches.has(event.index):
+			touches[event.index].curr = event.position
+			touches[event.index].active = true
+			update()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	update()
-	if drag and curPosition != prevPosition and prevPosition != Vector2(0, 0) and not gameOver:
-		var space_state = get_world_2d().get_direct_space_state()
-		# Returns a list of objects the ray encounters on its way
-		var result = space_state.intersect_ray(prevPosition, curPosition)
-		if not result.empty():
-			# call cut function from the collided object which is the fruit
-			result.collider.cut()
-
-func pressed(position):
-	pressed = true
-	prevPosition = position
-	limit.start()
-	interval.start()
-
-
-func released():
-	pressed = false
-	drag = false
-	limit.stop()
-	interval.stop()
-	prevPosition = Vector2(0, 0)
-	curPosition = Vector2(0, 0)
-
-
-func drag(position):
-	curPosition = position
-	drag = true
-
-
-func _on_Interval_timeout():
-	prevPosition = curPosition
-
-
-func _on_Limit_timeout():
-	released()
-
+	if gameOver: return
+	
+	var space_state = get_world_2d().get_direct_space_state()
+	
+	# Procesamos el raycast para CADA dedo registrado
+	for index in touches.keys():
+		var t = touches[index]
+		if t.active and t.curr != t.prev:
+			var result = space_state.intersect_ray(t.prev, t.curr)
+			if not result.empty():
+				if result.collider.has_method("cut"):
+					result.collider.cut()
+			
+			# Actualizamos la posición previa para el siguiente frame físico
+			t.prev = t.curr
 
 func _draw():
-	if drag and curPosition != prevPosition and prevPosition != Vector2(0, 0) and not gameOver:
-		draw_line(curPosition, prevPosition, Color(1, 0 ,0), 10)
-			
+	if gameOver: return
+	
+	# Dibujamos una línea de corte independiente para cada dedo
+	for index in touches.keys():
+		var t = touches[index]
+		if t.active and t.curr != t.prev:
+			draw_line(t.curr, t.prev, Color(1, 0 ,0), 10)

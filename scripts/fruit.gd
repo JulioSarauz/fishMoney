@@ -1,6 +1,5 @@
 extends RigidBody2D
 
-
 onready var shape = get_node("Shape")
 onready var sprite0 = get_node("Sprite0")
 onready var body1 = get_node("Body1")
@@ -13,10 +12,8 @@ var didCut = false
 signal score
 signal life
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
-
 
 func generate(initialPos):
 	position = initialPos
@@ -28,11 +25,11 @@ func generate(initialPos):
 	linear_velocity = initialVel
 	angular_velocity = rand_range(-10, 10)
 
-
 func cut():
 	if didCut: return
 	didCut = true
-	emit_signal("score")
+	# MODIFICADO: Enviamos la posición X para que game.gd sepa a qué carril darle el punto
+	emit_signal("score", global_position.x) 
 	mode = MODE_KINEMATIC
 	sprite0.queue_free()
 	shape.queue_free()
@@ -43,10 +40,9 @@ func cut():
 	body1.angular_velocity = angular_velocity
 	body2.angular_velocity = angular_velocity
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if position.y > 800:
-		emit_signal("life")
+		emit_signal("life") # Asumo que si una fruta cae, todos pierden una vida general
 		queue_free()
 	if body1.position.y > 800 and body2.position.y > 800:
 		queue_free()
