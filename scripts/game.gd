@@ -30,6 +30,8 @@ func _ready():
 	screen_width = get_viewport_rect().size.x
 	screen_height = get_viewport_rect().size.y
 	update()
+	if has_node("Control/TimeLabel"):
+		get_node("Control/TimeLabel").add_color_override("font_color", Color(0, 0, 1))
 
 func _draw():
 	var lane_width = screen_width / 3.0
@@ -46,16 +48,28 @@ func _process(delta):
 	game_time -= delta
 	
 	if has_node("Control/TimeLabel"):
-		get_node("Control/TimeLabel").set_text("Tiempo: " + str(int(game_time)))
+		var time_label = get_node("Control/TimeLabel")
+		time_label.set_text("Tiempo: " + str(int(game_time)))
 		
+		if game_time <= 10.0 and game_time > 0:
+			time_label.add_color_override("font_color", Color(1, 0, 0))
+			time_label.rect_pivot_offset = time_label.rect_size / 2.0
+			var pulse = 1.0 + abs(sin(game_time * PI)) * 0.4
+			time_label.rect_scale = Vector2(pulse, pulse)
+		else:
+			time_label.add_color_override("font_color", Color(0, 0, 1))
+			time_label.rect_scale = Vector2(1.0, 1.0)
+			
 	if game_time <= 0:
 		game_time = 0
+		if has_node("Control/TimeLabel"):
+			get_node("Control/TimeLabel").rect_scale = Vector2(1.0, 1.0)
 		trigger_game_over()
 
 func _on_Generator_timeout():
 	if is_game_over: return
 	
-	for i in range(0, int(rand_range(3, 8))):
+	for i in range(0, int(rand_range(6, 13))):
 		var type = int(rand_range(0, 9))
 		var obj
 		match type:
@@ -71,8 +85,15 @@ func _on_Generator_timeout():
 			
 		obj.generate(Vector2(rand_range(100, screen_width - 100), screen_height))
 		
+		var points = 1
+		
+		if type == 0:
+			obj.scale = Vector2(0.6, 0.6)
+			obj.linear_velocity *= 1.5
+			points = 5
+		
 		if type != 8:
-			obj.connect("score", self, "inc_score")
+			obj.connect("score", self, "inc_score", [points])
 		else:
 			obj.connect("explode_bomb", self, "penalize_all_players")
 		
@@ -83,14 +104,14 @@ func trigger_game_over():
 	get_node("InputProcessor").gameOver = true
 	get_node("GameOverScreen").start()
 
-func inc_score(cut_x_position):
+func inc_score(cut_x_position, points_earned):
 	if is_game_over: return
 	
 	var lane_width = screen_width / 3.0
 	var player_index = int(cut_x_position / lane_width)
 	player_index = clamp(player_index, 0, 2) 
 	
-	scores[player_index] += 1
+	scores[player_index] += points_earned
 	
 	var label_name = "Control/Label" + str(player_index + 1)
 	if has_node(label_name):
