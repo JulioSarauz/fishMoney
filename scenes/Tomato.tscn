@@ -7,6 +7,7 @@
 radius = 71.9342
 
 [node name="Tomato" type="RigidBody2D"]
+scale = Vector2( 5, 5 )
 z_index = 1
 gravity_scale = 8.7
 script = ExtResource( 2 )

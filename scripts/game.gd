@@ -30,8 +30,16 @@ func _ready():
 	screen_width = get_viewport_rect().size.x
 	screen_height = get_viewport_rect().size.y
 	update()
+	
 	if has_node("Control/TimeLabel"):
-		get_node("Control/TimeLabel").add_color_override("font_color", Color(0, 0, 1))
+		get_node("Control/TimeLabel").add_color_override("font_color", Color(1, 1, 1))
+		
+	for i in range(1, 4):
+		var lbl = "Control/Label" + str(i)
+		if has_node(lbl):
+			var node = get_node(lbl)
+			node.add_color_override("font_color", Color(1, 1, 0))
+			node.rect_scale = Vector2(1.5, 1.5)
 
 func _draw():
 	var lane_width = screen_width / 3.0
@@ -54,22 +62,22 @@ func _process(delta):
 		if game_time <= 10.0 and game_time > 0:
 			time_label.add_color_override("font_color", Color(1, 0, 0))
 			time_label.rect_pivot_offset = time_label.rect_size / 2.0
-			var pulse = 1.0 + abs(sin(game_time * PI)) * 0.4
+			var pulse = 0.7 + abs(sin(game_time * PI)) * 0.3
 			time_label.rect_scale = Vector2(pulse, pulse)
 		else:
-			time_label.add_color_override("font_color", Color(0, 0, 1))
-			time_label.rect_scale = Vector2(1.0, 1.0)
+			time_label.add_color_override("font_color", Color(1, 1, 1))
+			time_label.rect_scale = Vector2(0.7, 0.7)
 			
 	if game_time <= 0:
 		game_time = 0
 		if has_node("Control/TimeLabel"):
-			get_node("Control/TimeLabel").rect_scale = Vector2(1.0, 1.0)
+			get_node("Control/TimeLabel").rect_scale = Vector2(0.7, 0.7)
 		trigger_game_over()
 
 func _on_Generator_timeout():
 	if is_game_over: return
 	
-	for i in range(0, int(rand_range(6, 13))):
+	for i in range(0, int(rand_range(10, 18))):
 		var type = int(rand_range(0, 9))
 		var obj
 		match type:
@@ -86,9 +94,9 @@ func _on_Generator_timeout():
 		obj.generate(Vector2(rand_range(100, screen_width - 100), screen_height))
 		
 		var points = 1
+		obj.linear_velocity *= 0.75
 		
 		if type == 0:
-			obj.scale = Vector2(0.6, 0.6)
 			obj.linear_velocity *= 1.5
 			points = 5
 		

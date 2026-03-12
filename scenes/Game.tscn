@@ -60,7 +60,7 @@ script = ExtResource( 2 )
 
 [node name="Background" type="Sprite" parent="."]
 position = Vector2( 1.1714, -1.33485 )
-scale = Vector2( 1.32302, 3.20445 )
+scale = Vector2( 1.01056, 1.01311 )
 z_index = -1
 texture = ExtResource( 1 )
 centered = false
@@ -89,10 +89,10 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="Control"]
-margin_left = 67.0
-margin_top = 58.0
-margin_right = 358.0
-margin_bottom = 374.0
+margin_left = -236.0
+margin_top = -680.0
+margin_right = 1924.0
+margin_bottom = 3160.0
 rect_scale = Vector2( 0.4, 0.4 )
 texture = ExtResource( 6 )
 __meta__ = {
@@ -100,10 +100,10 @@ __meta__ = {
 }
 
 [node name="Label1" type="Label" parent="Control"]
-margin_left = 323.0
-margin_top = 303.0
-margin_right = 402.0
-margin_bottom = 454.0
+margin_left = 287.0
+margin_top = 474.0
+margin_right = 446.0
+margin_bottom = 774.0
 custom_colors/font_color = Color( 0.333333, 0.639216, 0, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "0"
@@ -112,10 +112,10 @@ __meta__ = {
 }
 
 [node name="Label2" type="Label" parent="Control"]
-margin_left = 1082.0
-margin_top = 305.0
-margin_right = 1161.0
-margin_bottom = 456.0
+margin_left = 1046.0
+margin_top = 469.0
+margin_right = 1205.0
+margin_bottom = 769.0
 custom_colors/font_color = Color( 0.333333, 0.639216, 0, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "0"
@@ -124,10 +124,10 @@ __meta__ = {
 }
 
 [node name="Label3" type="Label" parent="Control"]
-margin_left = 1865.0
-margin_top = 299.0
-margin_right = 1944.0
-margin_bottom = 450.0
+margin_left = 1854.0
+margin_top = 506.0
+margin_right = 2013.0
+margin_bottom = 806.0
 custom_colors/font_color = Color( 0.333333, 0.639216, 0, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "0"
@@ -136,10 +136,10 @@ __meta__ = {
 }
 
 [node name="TimeLabel" type="Label" parent="Control"]
-margin_left = 468.0
-margin_top = 48.0
-margin_right = 627.0
-margin_bottom = 348.0
+margin_left = 646.0
+margin_top = 69.0
+margin_right = 805.0
+margin_bottom = 369.0
 custom_colors/font_color = Color( 0.333333, 0.639216, 0, 1 )
 custom_fonts/font = ExtResource( 4 )
 text = "0"

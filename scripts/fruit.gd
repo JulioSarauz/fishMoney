@@ -8,13 +8,21 @@ onready var sprite1 = get_node("Body1/Sprite1")
 onready var sprite2 = body2.get_node("Sprite2")
 
 var didCut = false
+var fruit_scale = 1.0
 
 signal score
 signal life
 
 func _ready():
 	randomize()
-	scale = Vector2(1.5, 1.5)
+	sprite0.scale = Vector2(fruit_scale, fruit_scale)
+	shape.scale = Vector2(fruit_scale, fruit_scale)
+	sprite1.scale = Vector2(fruit_scale, fruit_scale)
+	sprite2.scale = Vector2(fruit_scale, fruit_scale)
+	body1.position *= fruit_scale
+	body2.position *= fruit_scale
+	sprite1.position *= fruit_scale
+	sprite2.position *= fruit_scale
 
 func generate(initialPos):
 	position = initialPos
@@ -29,8 +37,7 @@ func generate(initialPos):
 func cut():
 	if didCut: return
 	didCut = true
-	# MODIFICADO: Enviamos la posición X para que game.gd sepa a qué carril darle el punto
-	emit_signal("score", global_position.x) 
+	emit_signal("score", global_position.x)
 	mode = MODE_KINEMATIC
 	sprite0.queue_free()
 	shape.queue_free()
@@ -42,7 +49,6 @@ func cut():
 	body2.angular_velocity = angular_velocity
 
 func _process(delta):
-	# Cambiamos 800 por 3900 (fuera de la pantalla de 3840)
 	if position.y > 3900:
 		emit_signal("life")
 		queue_free()
