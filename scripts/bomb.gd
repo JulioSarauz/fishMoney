@@ -13,7 +13,7 @@ func _ready():
 
 func generate(initialPos):
 	position = initialPos
-	var initialVel = Vector2(0, rand_range(-1000, -800))
+	var initialVel = Vector2(0, rand_range(-3800, -3200))
 	if initialPos.x < 640:
 		initialVel = initialVel.rotated(deg2rad(rand_range(0, -30)))
 	else:
@@ -29,5 +29,5 @@ func cut():
 	anim.play("Explode")
 
 func _process(delta):
-	if position.y > 800:
+	if position.y > 3900:
 		queue_free()

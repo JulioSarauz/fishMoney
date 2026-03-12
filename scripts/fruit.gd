@@ -14,10 +14,11 @@ signal life
 
 func _ready():
 	randomize()
+	scale = Vector2(1.5, 1.5)
 
 func generate(initialPos):
 	position = initialPos
-	var initialVel = Vector2(0, rand_range(-1000, -800))
+	var initialVel = Vector2(0, rand_range(-3800, -3200))
 	if initialPos.x < 640:
 		initialVel = initialVel.rotated(deg2rad(rand_range(0, -30)))
 	else:
@@ -41,8 +42,9 @@ func cut():
 	body2.angular_velocity = angular_velocity
 
 func _process(delta):
-	if position.y > 800:
-		emit_signal("life") # Asumo que si una fruta cae, todos pierden una vida general
+	# Cambiamos 800 por 3900 (fuera de la pantalla de 3840)
+	if position.y > 3900:
+		emit_signal("life")
 		queue_free()
-	if body1.position.y > 800 and body2.position.y > 800:
+	if body1.position.y > 3900 and body2.position.y > 3900:
 		queue_free()
