@@ -8,26 +8,17 @@ onready var sprite1 = get_node("Body1/Sprite1")
 onready var sprite2 = body2.get_node("Sprite2")
 
 var didCut = false
-var fruit_scale = 1.0
 
 signal score
 signal life
 
 func _ready():
 	randomize()
-	sprite0.scale = Vector2(fruit_scale, fruit_scale)
-	shape.scale = Vector2(fruit_scale, fruit_scale)
-	sprite1.scale = Vector2(fruit_scale, fruit_scale)
-	sprite2.scale = Vector2(fruit_scale, fruit_scale)
-	body1.position *= fruit_scale
-	body2.position *= fruit_scale
-	sprite1.position *= fruit_scale
-	sprite2.position *= fruit_scale
 
 func generate(initialPos):
 	position = initialPos
 	var initialVel = Vector2(0, rand_range(-3800, -3200))
-	if initialPos.x < 640:
+	if initialPos.x < 1920:
 		initialVel = initialVel.rotated(deg2rad(rand_range(0, -30)))
 	else:
 		initialVel = initialVel.rotated(deg2rad(rand_range(0, 30)))
@@ -43,8 +34,8 @@ func cut():
 	shape.queue_free()
 	body1.mode = MODE_RIGID
 	body2.mode = MODE_RIGID
-	body1.apply_impulse(Vector2(0, 0), Vector2(-100, 0).rotated(rotation))
-	body2.apply_impulse(Vector2(0, 0), Vector2(100, 0).rotated(rotation))
+	body1.apply_impulse(Vector2(0, 0), Vector2(-300, 0).rotated(rotation))
+	body2.apply_impulse(Vector2(0, 0), Vector2(300, 0).rotated(rotation))
 	body1.angular_velocity = angular_velocity
 	body2.angular_velocity = angular_velocity
 

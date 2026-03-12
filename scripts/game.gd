@@ -92,7 +92,13 @@ func _on_Generator_timeout():
 			7: obj = banana.instance()
 			8: obj = bomb.instance()
 			
-		obj.generate(Vector2(rand_range(100, screen_width - 100), screen_height))
+		var lane_width = screen_width / 3.0
+		var lane_index = i % 3
+		var min_x = (lane_index * lane_width) + 100
+		var max_x = ((lane_index + 1) * lane_width) - 100
+		var spawn_x = rand_range(min_x, max_x)
+		
+		obj.generate(Vector2(spawn_x, screen_height))
 		
 		var points = 1
 		obj.linear_velocity *= 0.75

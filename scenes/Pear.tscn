@@ -37,7 +37,7 @@ mode = 1
 gravity_scale = 15.0
 
 [node name="Sprite2" type="Sprite" parent="Body2"]
-position = Vector2( 45.8, 10.6 )
+position = Vector2( 45.4, 10.6 )
 scale = Vector2( 0.3, 0.3 )
 texture = ExtResource( 1 )
 region_enabled = true
