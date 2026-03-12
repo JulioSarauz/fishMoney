@@ -32,14 +32,15 @@ func _ready():
 	update()
 	
 	if has_node("Control/TimeLabel"):
-		get_node("Control/TimeLabel").add_color_override("font_color", Color(1, 1, 1))
+		get_node("Control/TimeLabel").add_color_override("font_color", Color("#ffc629"))
 		
 	for i in range(1, 4):
 		var lbl = "Control/Label" + str(i)
 		if has_node(lbl):
 			var node = get_node(lbl)
-			node.add_color_override("font_color", Color(1, 1, 0))
+			node.add_color_override("font_color", Color("#ffc629"))
 			node.rect_scale = Vector2(1.5, 1.5)
+			node.set_text("$0")
 
 func _draw():
 	var lane_width = screen_width / 3.0
@@ -60,12 +61,12 @@ func _process(delta):
 		time_label.set_text("Tiempo: " + str(int(game_time)))
 		
 		if game_time <= 10.0 and game_time > 0:
-			time_label.add_color_override("font_color", Color(1, 0, 0))
+			time_label.add_color_override("font_color", Color("#8a2432"))
 			time_label.rect_pivot_offset = time_label.rect_size / 2.0
 			var pulse = 0.7 + abs(sin(game_time * PI)) * 0.3
 			time_label.rect_scale = Vector2(pulse, pulse)
 		else:
-			time_label.add_color_override("font_color", Color(1, 1, 1))
+			time_label.add_color_override("font_color", Color("#ffc629"))
 			time_label.rect_scale = Vector2(0.7, 0.7)
 			
 	if game_time <= 0:
@@ -123,7 +124,7 @@ func inc_score(cut_x_position, points_earned):
 	
 	var label_name = "Control/Label" + str(player_index + 1)
 	if has_node(label_name):
-		get_node(label_name).set_text(str(scores[player_index]))
+		get_node(label_name).set_text("$" + str(scores[player_index]))
 
 func penalize_all_players():
 	if is_game_over: return
@@ -131,4 +132,4 @@ func penalize_all_players():
 		scores[i] = max(0, scores[i] - 1) 
 		var label_name = "Control/Label" + str(i + 1)
 		if has_node(label_name):
-			get_node(label_name).set_text(str(scores[i]))
+			get_node(label_name).set_text("$" + str(scores[i]))
