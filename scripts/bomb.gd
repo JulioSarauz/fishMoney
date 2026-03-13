@@ -4,7 +4,7 @@ onready var shape = get_node("Shape")
 onready var sprite = get_node("Sprite")
 onready var anim = get_node("Animation")
 
-signal explode_bomb # MODIFICADO: Nueva señal específica para multijugador
+signal explode_bomb
 
 var didCut = false
 
@@ -24,7 +24,7 @@ func generate(initialPos):
 func cut():
 	if didCut: return
 	didCut = true
-	emit_signal("explode_bomb") # MODIFICADO
+	emit_signal("explode_bomb")
 	set_mode(MODE_KINEMATIC)
 	anim.play("Explode")
 

@@ -117,7 +117,7 @@ func _on_Generator_timeout():
 func trigger_game_over():
 	is_game_over = true
 	get_node("InputProcessor").gameOver = true
-	get_node("GameOverScreen").start()
+	get_node("GameOverScreen").start(scores)
 
 func inc_score(cut_x_position, points_earned):
 	if is_game_over: return
